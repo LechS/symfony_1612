@@ -47,7 +47,15 @@ class Post
      */
     private $author;
 
-    public function getId(): ?int
+	public function __construct()
+	{
+		$dateTime = new \DateTimeImmutable();
+		$this->setCreatedAt($dateTime);
+		$this->setUpdatedAt($dateTime);
+
+	}
+
+	public function getId(): ?int
     {
         return $this->id;
     }

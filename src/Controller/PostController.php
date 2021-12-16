@@ -18,7 +18,7 @@ class PostController extends AbstractController
     public function index(PostRepository $postRepository): Response
     {
         return $this->render('post/index.html.twig', [
-            'posts' => $postRepository->findAll(),
+            'posts' => $postRepository->findBy(['deletedAt' => null]),
         ]);
     }
 
@@ -61,6 +61,13 @@ class PostController extends AbstractController
         if ($form->isSubmitted()
 			&& $form->isValid()
 		) {
+			/*
+			 * Ustawianie daty w controllerze nie jest najlepszym pomysłem, ponieważ controller nie koniecznie
+			 * jest jedynym miejscem edytowania encji
+			 * Ponadto w controllerach powinno być jak najmniej logiki, jak to można zrobić inaczej?
+			 * https://github.com/doctrine-extensions/DoctrineExtensions
+			 */
+			$post->setUpdatedAt(new \DateTimeImmutable());
             $entityManager->flush();
 
             return $this->redirectToRoute('post_index', [], Response::HTTP_SEE_OTHER);
@@ -76,7 +83,9 @@ class PostController extends AbstractController
     public function delete(Request $request, Post $post, EntityManagerInterface $entityManager): Response
     {
 //        if ($this->isCsrfTokenValid('delete'.$post->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($post);
+
+			$post->setDeletedAt(new \DateTimeImmutable());
+
             $entityManager->flush();
 //        }
 
