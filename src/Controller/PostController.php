@@ -18,7 +18,7 @@ class PostController extends AbstractController
     public function index(PostRepository $postRepository): Response
     {
         return $this->render('post/index.html.twig', [
-            'posts' => $postRepository->findBy(['deletedAt' => null]),
+            'posts' => $postRepository->findAll(),
         ]);
     }
 
@@ -29,9 +29,7 @@ class PostController extends AbstractController
         $form = $this->createForm(PostType::class, $post);
 		$form->handleRequest($request);
 
-        if ($form->isSubmitted()
-			&& $form->isValid()
-		) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($post);
             $entityManager->flush();
 

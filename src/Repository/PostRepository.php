@@ -9,7 +9,6 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * @method Post|null find($id, $lockMode = null, $lockVersion = null)
  * @method Post|null findOneBy(array $criteria, array $orderBy = null)
- * @method Post[]    findAll()
  * @method Post[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class PostRepository extends ServiceEntityRepository
@@ -18,6 +17,40 @@ class PostRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Post::class);
     }
+
+	/**
+	 * @inheritDoc
+	 */
+	public function findAll()
+	{
+		$qb = $this
+			->createQueryBuilder('p')
+			->andWhere('p.deletedAt IS NULL')
+			->orderBy('p.createdAt', 'DESC');
+
+		$query = $qb->getQuery();
+
+		return $query->getResult();
+
+
+	}
+
+	/**
+	 * @inheritDoc
+	 * HOW TO USE RAW SQL in repository
+	 */
+//	public function findAll()
+//	{
+//
+//		$sql = 'SELECT * FROM post WHERE deleted_at IS NULL ORDER BY created_at DESC';
+//
+//		$conn =  $this->getEntityManager()->getConnection();
+//
+//		$stmt = $conn->prepare($sql);
+//
+//		dd($stmt->executeQuery()->fetchAllAssociative());
+//
+//	}
 
     // /**
     //  * @return Post[] Returns an array of Post objects
