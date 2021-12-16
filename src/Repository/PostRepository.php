@@ -23,16 +23,22 @@ class PostRepository extends ServiceEntityRepository
 	 */
 	public function findAll()
 	{
+		$query = $this->getFindAllQuery();
+
+		return $query->getResult();
+	}
+
+	/**
+	 * @return \Doctrine\ORM\Query
+	 */
+	public function getFindAllQuery(): \Doctrine\ORM\Query
+	{
 		$qb = $this
 			->createQueryBuilder('p')
 			->andWhere('p.deletedAt IS NULL')
 			->orderBy('p.createdAt', 'DESC');
 
-		$query = $qb->getQuery();
-
-		return $query->getResult();
-
-
+		return $qb->getQuery();
 	}
 
 	/**
