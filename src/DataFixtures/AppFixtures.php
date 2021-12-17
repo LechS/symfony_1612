@@ -10,7 +10,9 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-		for($i = 0; $i < 100; $i++) {
+		$batchSize = 20;
+
+		for($i = 0; $i < 1000; $i++) {
 			$post = new Post();
 			$post
 				->setTitle('title')
@@ -20,8 +22,11 @@ class AppFixtures extends Fixture
 				->setUpdatedAt(new \DateTimeImmutable());
 
 			$manager->persist($post);
+			if (($i % $batchSize) === 0) {
+				$manager->flush();
+				$manager->clear();
+			}
 		}
-
         $manager->flush();
     }
 }
