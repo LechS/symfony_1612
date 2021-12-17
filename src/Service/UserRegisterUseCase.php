@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Entity\User;
+use App\Service\Dto\UserDto;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -15,14 +16,14 @@ final class UserRegisterUseCase
 		private EntityManagerInterface $em
 	){}
 
-	public function __invoke(string $email, string $plaintextPassword)
+	public function __invoke(UserDto $userDto)
 	{
 		$user = new User();
-		$user->setEmail($email);
+		$user->setEmail($userDto->getEmail());
 
         $hashedPassword = $this->passwordHasher->hashPassword(
 			$user,
-			$plaintextPassword
+			$userDto->getPlainPassword()
 		);
         $user->setPassword($hashedPassword);
 

@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\User;
+use App\Service\Dto\UserDto;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -24,4 +25,13 @@ class UserType extends AbstractType
 				'second_options' => ['label' => 'Repeat Password'],
 			]);
     }
+
+
+
+	public function configureOptions(OptionsResolver $resolver): void
+	{
+		$resolver->setDefaults([
+			'data_class' => UserDto::class,
+		]);
+	}
 }
