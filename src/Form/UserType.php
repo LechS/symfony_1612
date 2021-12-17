@@ -22,14 +22,6 @@ class UserType extends AbstractType
 				'required' => true,
 				'first_options'  => ['label' => 'Password'],
 				'second_options' => ['label' => 'Repeat Password'],
-			])
-        ;
-    }
-
-    public function configureOptions(OptionsResolver $resolver): void
-    {
-        $resolver->setDefaults([
-            'data_class' => User::class
-		])	;
+			]);
     }
 }

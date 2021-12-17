@@ -19,24 +19,19 @@ final class UserController extends AbstractController
 	#[Route('/register', name: 'user_register', methods: ['GET', 'POST'])]
 	public function register(Request $request, UserRegisterUseCase $userRegister): Response
 	{
-		/**
-		 Czy ma sens używanie encji User w Controlerze?
-		 */
-		$user = new User();
-		$form = $this->createForm(UserType::class, $user);
+		$form = $this->createForm(UserType::class);
 		$form->handleRequest($request);
 
-
 		if ($form->isSubmitted() && $form->isValid()) {
+
 			$userRegister(
-				$user->getEmail(),
-				$user->getPlainPassword()
+				$form->getData()['email'],
+				$form->getData()['plainPassword'],
 			);
 		}
 
 		return $this->renderForm('user/new.html.twig',
 			[
-				'user' => $user,
 				'form' => $form,
 			]
 		);
