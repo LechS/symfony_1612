@@ -3,19 +3,21 @@
 namespace App\Repository;
 
 use App\Entity\Post;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\OptimisticLockException;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectRepository;
 
-/**
- * @method Post|null find($id, $lockMode = null, $lockVersion = null)
- * @method Post|null findOneBy(array $criteria, array $orderBy = null)
- * @method Post[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
-class PostRepository extends ServiceEntityRepository
+class PostRepository
 {
+	private ObjectManager $manager;
+	private ObjectRepository $repository;
+
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Post::class);
+        $this->manager = $registry->getManagerForClass(Post::class);
+		$this->repository = $this->manager->getRepository(Post::class);
     }
 
 	/**
@@ -33,7 +35,7 @@ class PostRepository extends ServiceEntityRepository
 	 */
 	public function getFindAllQuery(): \Doctrine\ORM\Query
 	{
-		$qb = $this
+		$qb = $this->repository
 			->createQueryBuilder('p')
 			->andWhere('p.deletedAt IS NULL')
 			->orderBy('p.createdAt', 'DESC');
@@ -41,9 +43,13 @@ class PostRepository extends ServiceEntityRepository
 		return $qb->getQuery();
 	}
 
+	/**
+	 * @throws OptimisticLockException
+	 * @throws ORMException
+	 */
 	public function store(Post $post) {
 		$post->setUpdatedAt(new \DateTimeImmutable());
-		$this->_em->persist($post);
-		$this->_em->flush();
+		$this->manager->persist($post);
+		$this->manager->flush();
 	}
 }
