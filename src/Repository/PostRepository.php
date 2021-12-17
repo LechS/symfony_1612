@@ -41,49 +41,9 @@ class PostRepository extends ServiceEntityRepository
 		return $qb->getQuery();
 	}
 
-	/**
-	 * @inheritDoc
-	 * HOW TO USE RAW SQL in repository
-	 */
-//	public function findAll()
-//	{
-//
-//		$sql = 'SELECT * FROM post WHERE deleted_at IS NULL ORDER BY created_at DESC';
-//
-//		$conn =  $this->getEntityManager()->getConnection();
-//
-//		$stmt = $conn->prepare($sql);
-//
-//		dd($stmt->executeQuery()->fetchAllAssociative());
-//
-//	}
-
-    // /**
-    //  * @return Post[] Returns an array of Post objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Post
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
+	public function store(Post $post) {
+		$post->setUpdatedAt(new \DateTimeImmutable());
+		$this->_em->persist($post);
+		$this->_em->flush();
+	}
 }

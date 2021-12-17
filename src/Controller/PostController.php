@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Post;
 use App\Form\PostType;
 use App\Repository\PostRepository;
+use App\Service\EditPostUseCase;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -58,22 +59,19 @@ class PostController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'post_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Post $post, EntityManagerInterface $entityManager): Response
-    {
+    public function edit(
+		Request $request,
+		Post $post,
+		EditPostUseCase $editPost
+	): Response {
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
 
         if ($form->isSubmitted()
 			&& $form->isValid()
 		) {
-			/*
-			 * Ustawianie daty w controllerze nie jest najlepszym pomysłem, ponieważ controller nie koniecznie
-			 * jest jedynym miejscem edytowania encji
-			 * Ponadto w controllerach powinno być jak najmniej logiki, jak to można zrobić inaczej?
-			 * https://github.com/doctrine-extensions/DoctrineExtensions
-			 */
-			$post->setUpdatedAt(new \DateTimeImmutable());
-            $entityManager->flush();
+
+			$editPost($post);
 
             return $this->redirectToRoute('post_index', [], Response::HTTP_SEE_OTHER);
         }
