@@ -17,7 +17,7 @@ final class UserRegisterUseCase
 
 	public function __invoke(string $email, string $plaintextPassword)
 	{
-		$user = new User();;
+		$user = new User();
 		$user->setEmail($email);
 
         $hashedPassword = $this->passwordHasher->hashPassword(
