@@ -21,7 +21,7 @@ class PostController extends AbstractController
 		$pagination = $paginator->paginate(
 			$postRepository->getFindAllQuery(),
 			$request->query->getInt('page', 1),
-			2
+			10
 		);
 
         return $this->render('post/index.html.twig', [
