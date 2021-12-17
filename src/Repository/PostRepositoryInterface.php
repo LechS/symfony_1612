@@ -10,7 +10,8 @@ interface PostRepositoryInterface
 
 	public function findAll();
 
-	/* interface zwraca Quer z doctrine, not trudno :) potrzebujem go do paginator */
+	/* interface zwraca Query z doctrine, no trudno :) potrzebujemy go do paginatora,
+	w takiej sytuacji paginację nalżałoby zrobić inaczej */
 	public function getFindAllQuery(): \Doctrine\ORM\Query;
 
 	public function store(Post $post);
