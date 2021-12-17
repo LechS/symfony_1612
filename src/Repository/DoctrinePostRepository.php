@@ -9,7 +9,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Persistence\ObjectRepository;
 
-class PostRepository
+class DoctrinePostRepository implements PostRepositoryInterface
 {
 	private ObjectManager $manager;
 	private ObjectRepository $repository;
@@ -43,10 +43,6 @@ class PostRepository
 		return $qb->getQuery();
 	}
 
-	/**
-	 * @throws OptimisticLockException
-	 * @throws ORMException
-	 */
 	public function store(Post $post) {
 		$post->setUpdatedAt(new \DateTimeImmutable());
 		$this->manager->persist($post);

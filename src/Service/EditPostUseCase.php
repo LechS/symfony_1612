@@ -6,14 +6,12 @@ namespace App\Service;
 
 
 use App\Entity\Post;
-use App\Repository\PostRepository;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use App\Repository\PostRepositoryInterface;
 
 final class EditPostUseCase
 {
 	public function __construct(
-		private PostRepository $repository
+		private PostRepositoryInterface $repository
 	) {}
 
 	public function __invoke(Post $post): void

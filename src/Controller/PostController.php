@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Post;
 use App\Form\PostType;
-use App\Repository\PostRepository;
+use App\Repository\DoctrinePostRepository;
 use App\Service\EditPostUseCase;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PostController extends AbstractController
 {
     #[Route('/', name: 'post_index', methods: ['GET'])]
-    public function index(PostRepository $postRepository, PaginatorInterface $paginator, Request $request): Response
+    public function index(DoctrinePostRepository $postRepository, PaginatorInterface $paginator, Request $request): Response
     {
 		$pagination = $paginator->paginate(
 			$postRepository->getFindAllQuery(),
