@@ -30,7 +30,7 @@ final class UserController extends AbstractController
 		if ($form->isSubmitted() && $form->isValid()) {
 			$userRegister(
 				$user->getEmail(),
-				$user->getPassword()
+				$user->getPlainPassword()
 			);
 		}
 
