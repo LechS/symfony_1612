@@ -17,15 +17,15 @@ class AppFixtures extends Fixture
 
 		for($i = 0; $i < 1000; $i++) {
 
-			$date = $faker->dateTime;
+			$date = new \DateTimeImmutable($faker->dateTime->format('c'));
 
 			$post = new Post();
 			$post
 				->setTitle($faker->realText(100))
 				->setContent($faker->realText())
 				->setAuthor($faker->name)
-				->setCreatedAt(new \DateTimeImmutable($date->format('c')))
-				->setUpdatedAt(new \DateTimeImmutable($date->format('c')));
+				->setCreatedAt($date)
+				->setUpdatedAt($date);
 
 			$manager->persist($post);
 			if (($i % $batchSize) === 0) {
