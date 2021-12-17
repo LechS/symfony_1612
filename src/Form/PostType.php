@@ -4,8 +4,11 @@ namespace App\Form;
 
 use App\Entity\Post;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class PostType extends AbstractType
 {
@@ -13,7 +16,9 @@ class PostType extends AbstractType
     {
         $builder
             ->add('content')
-            ->add('title')
+            ->add('title', null, [
+				'constraints' => [new NotBlank(), new Length(null, 3)]
+			])
             ->add('author')
         ;
     }
