@@ -15,13 +15,11 @@ final class UserRegisterUseCase
 		private EntityManagerInterface $em
 	){}
 
-	public function __invoke()
+	public function __invoke(string $email, string $plaintextPassword)
 	{
-		$user = new User();
-		$plaintextPassword = 'haslo';
-		$user->setEmail('email@example.com');
+		$user = new User();;
+		$user->setEmail($email);
 
-        // hash the password (based on the security.yaml config for the $user class)
         $hashedPassword = $this->passwordHasher->hashPassword(
 			$user,
 			$plaintextPassword
