@@ -22,8 +22,14 @@ final class UserFixtures extends Fixture
 		// to jest tylko przykład reużywalności serwisu :)
 
 		$userDto = (new UserDto())
-			->setEmail('test@example.com')
+			->setEmail('user@example.com')
 			->setPlainPassword('haslo');
+
+
+		$userAdminDto = (new UserDto())
+			->setEmail('admin@example.com')
+			->setPlainPassword('haslo')
+			->setRoles(['ROLE_ADMIN']);
 
 		//DODAC tworzenie uzytkownika z rolą admin
 		// ustawić dostęp:
@@ -35,6 +41,7 @@ final class UserFixtures extends Fixture
 		// w twigu user nie widzi innych akcji niz te do których ma dostęp
 
 		$this->useCase->__invoke($userDto);
+		$this->useCase->__invoke($userAdminDto);
 	}
 
 }

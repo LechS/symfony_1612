@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 #[Route('/post')]
 class PostController extends AbstractController
@@ -31,6 +32,7 @@ class PostController extends AbstractController
     }
 
     #[Route('/new', name: 'post_new', methods: ['GET', 'POST'])]
+	#[IsGranted("ROLE_ADMIN")]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $post = new Post();
@@ -59,6 +61,7 @@ class PostController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'post_edit', methods: ['GET', 'POST'])]
+	#[IsGranted("ROLE_ADMIN")]
     public function edit(
 		Request $request,
 		Post $post,
@@ -83,6 +86,7 @@ class PostController extends AbstractController
     }
 
     #[Route('/{id}', name: 'post_delete', methods: ['POST'])]
+	#[IsGranted("ROLE_ADMIN")]
     public function delete(Request $request, Post $post, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$post->getId(), $request->request->get('_token'))) {

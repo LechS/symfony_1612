@@ -22,6 +22,7 @@ final class UserDto
 	 */
 	private string $plainPassword;
 
+	private array $roles = [];
 
 	public function getEmail(): string
 	{
@@ -54,5 +55,14 @@ final class UserDto
 		return $this;
 	}
 
+	public function getRoles(): array
+	{
+		return $this->roles;
+	}
 
+	public function setRoles(array $roles): UserDto
+	{
+		$this->roles = $roles;
+		return $this;
+	}
 }
