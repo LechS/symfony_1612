@@ -21,5 +21,12 @@ services:
             - '../src/Kernel.php'
             - '../src/Tests/'
 
+
+    App\Controller\Api\PostController:
+        tags: ['controller.service_arguments']
+
+    App\Subscriber\HandleApiErrorSubscriber:
+        arguments: ["%kernel.environment%", "@monolog.logger.api"]
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
