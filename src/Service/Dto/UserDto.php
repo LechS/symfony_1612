@@ -37,17 +37,21 @@ final class UserDto
 	/**
 	 * @param string $email
 	 */
-	public function setEmail(string $email): void
+	public function setEmail(string $email): self
 	{
 		$this->email = $email;
+
+		return $this;
 	}
 
 	/**
 	 * @param string $plainPassword
 	 */
-	public function setPlainPassword(string $plainPassword): void
+	public function setPlainPassword(string $plainPassword): self
 	{
 		$this->plainPassword = $plainPassword;
+
+		return $this;
 	}
 
 
