@@ -25,6 +25,15 @@ final class UserFixtures extends Fixture
 			->setEmail('test@example.com')
 			->setPlainPassword('haslo');
 
+		//DODAC tworzenie uzytkownika z rolą admin
+		// ustawić dostęp:
+		// - user może wyświetlać
+		// admin moze dodawać posty
+		//2 czesc
+		// user tylko wyswietla (list i show)
+		//admin new, edit, delete
+		// w twigu user nie widzi innych akcji niz te do których ma dostęp
+
 		$this->useCase->__invoke($userDto);
 	}
 

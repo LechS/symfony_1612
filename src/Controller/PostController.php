@@ -85,12 +85,12 @@ class PostController extends AbstractController
     #[Route('/{id}', name: 'post_delete', methods: ['POST'])]
     public function delete(Request $request, Post $post, EntityManagerInterface $entityManager): Response
     {
-//        if ($this->isCsrfTokenValid('delete'.$post->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$post->getId(), $request->request->get('_token'))) {
 
 			$post->setDeletedAt(new \DateTimeImmutable());
 
             $entityManager->flush();
-//        }
+        }
 
         return $this->redirectToRoute('post_index', [], Response::HTTP_SEE_OTHER);
     }
