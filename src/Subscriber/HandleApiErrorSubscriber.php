@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Subscriber;
 
 
+use App\Utils\Validator\ValidationException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -48,11 +49,17 @@ final class HandleApiErrorSubscriber implements EventSubscriberInterface
 
 		if ('prod' === $this->env) {
 			$response = new JsonResponse(['error' => 'Oops something went wrong'],status: 500);
+			if ($exception instanceof ValidationException) {
+				$response = new JsonResponse(['error' => $exception->getMessage()],status: Response::HTTP_BAD_REQUEST);
+			}
 		}
 
 		if ('dev' === $this->env) {
-
 			$response = new JsonResponse(['error' => $exception->getMessage()],status: 500);
+			if ($exception instanceof ValidationException) {
+
+				$response = new JsonResponse(['error' => $exception->getMessage()],status: Response::HTTP_BAD_REQUEST);
+			}
 		}
 
 		$event->setResponse($response);
