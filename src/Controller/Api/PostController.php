@@ -34,20 +34,11 @@ final class PostController extends AbstractController
 		NewPostUseCase        $useCase
 	): JsonResponse {
 		$json = $request->getContent();
-		$newPostDto = $serializer->deserialize(
-			$json, NewPostDto::class, 'json',
+		$newPostDto = $serializer->deserialize($json, NewPostDto::class, 'json',
 			[AbstractNormalizer::ALLOW_EXTRA_ATTRIBUTES => false]
 		);
 
-		//Kod walidacji można umieścić we własnym "Serwisie", który będzie korzystał z Symfony Validatora
-		// I ten serwis może "rzucać" własny błąd ValidationException, który będzie obsłużny w
-		// Subscriberze przechwytującym błędy.
-
-		// W subscriberze obsłużyć następujące błędy
-		// - walidacja
-		// - serializacja, jeśli za dużo póli i za mało pólu w jsonie
 		$validator->validate($newPostDto);
-
 
 		$useCase($newPostDto);
 
