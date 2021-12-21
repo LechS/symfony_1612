@@ -31,6 +31,8 @@ services:
     App\Utils\Validator\AppValidatorInterface:
         alias: App\Utils\Validator\SymfonyAppValidator
 
+
+# service jest "publiczny" na potrzeby testu, normalnie byłoby to w services_test.yaml.
     App\Repository\PostRepositoryInterface:
         alias: App\Repository\DoctrinePostRepository
         public: true
