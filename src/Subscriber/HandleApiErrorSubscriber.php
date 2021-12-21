@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\Validator\Exception\ValidationFailedException;
 
 final class HandleApiErrorSubscriber implements EventSubscriberInterface
 {
@@ -39,6 +40,8 @@ final class HandleApiErrorSubscriber implements EventSubscriberInterface
 		$path = $event->getRequest()->getPathInfo();
 		$exception = $event->getThrowable();
 
+		//możemy sprawdzić czy zapytanie jest do API, również (a nawet lepiej by było tak zrobić)
+		//na podstawie nagłówka ContentType i Accept
 		if (!str_contains($path, '/api') ) {
 			return;
 		}
