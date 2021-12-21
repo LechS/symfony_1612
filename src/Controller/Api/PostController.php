@@ -22,7 +22,8 @@ final class PostController extends AbstractController
 	#[Route('/{id}', name: 'api_post_show', methods: ['GET'])]
 	public function show(Post $post, SerializerInterface $serializer): JsonResponse
 	{
-		$post = $serializer->serialize($post, 'json');
+		$post = $serializer->serialize($post, 'json', ['groups' => 'show_post']);
+
 		return new JsonResponse(data: $post, json: true);
 	}
 

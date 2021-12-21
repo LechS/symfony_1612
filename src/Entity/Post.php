@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity()
@@ -13,22 +14,26 @@ class Post
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+	 * @Groups({"show_post"})
      */
     private $id;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @Groups({"show_post"})
+	 * @ORM\Column(type="text", nullable=true)
      */
     private $content;
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     */
+	 * @Groups({"show_post"})
+	 */
     private $title;
 
     /**
      * @ORM\Column(type="datetime_immutable")
-     */
+	 * @Groups({"show_post"})
+	 */
     private $createdAt;
 
     /**
@@ -43,7 +48,8 @@ class Post
 
     /**
      * @ORM\Column(type="string", length=255)
-     */
+	 * @Groups({"show_post"})
+	 */
     private $author;
 
 	/**
@@ -136,4 +142,19 @@ class Post
 
         return $this;
     }
+
+	public function getUser()
+	{
+		return $this->user;
+	}
+
+	/**
+	 * @param mixed $user
+	 * @return Post
+	 */
+	public function setUser($user)
+	{
+		$this->user = $user;
+		return $this;
+	}
 }
