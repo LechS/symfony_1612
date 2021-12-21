@@ -5,6 +5,9 @@ namespace App\Controller\Api;
 
 use App\Entity\Post;
 use App\Form\PostType;
+use App\Repository\PostRepositoryInterface;
+use App\Repository\UserRepository;
+use App\Service\Dto\GetPostUseCase;
 use App\Service\Dto\NewPostDto;
 use App\Service\NewPostUseCase;
 use App\Utils\Validator\AppValidatorInterface;
@@ -20,9 +23,13 @@ use App\Utils\Serializer\SerializerInterface;
 final class PostController extends AbstractController
 {
 	#[Route('/{id}', name: 'api_post_show', methods: ['GET'])]
-	public function show(Post $post, SerializerInterface $serializer): JsonResponse
-	{
-		$post = $serializer->serialize($post, 'json', ['groups' => 'show_post']);
+	public function show(
+		string $id, SerializerInterface $serializer,
+		GetPostUseCase $useCase
+	): JsonResponse {
+
+		$post = $useCase($id);
+		$post = $serializer->serialize($post, 'json');
 
 		return new JsonResponse(data: $post, json: true);
 	}

@@ -48,4 +48,15 @@ class DoctrinePostRepository implements PostRepositoryInterface
 		$this->manager->persist($post);
 		$this->manager->flush();
 	}
+
+	public function findOneBy(string $id): Post
+	{
+		$qb = $this->repository
+			->createQueryBuilder('p')
+			->andWhere("p.id = :id")
+			->andWhere('p.deletedAt IS NULL')
+			->setParameter('id', $id);
+
+		return $qb->getQuery()->getOneOrNullResult();
+	}
 }

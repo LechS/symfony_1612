@@ -8,6 +8,8 @@ use Doctrine\ORM\OptimisticLockException;
 interface PostRepositoryInterface
 {
 
+	public function findOneBy(string $id): Post;
+
 	public function findAll();
 
 	/* interface zwraca Query z doctrine, no trudno :) potrzebujemy go do paginatora,
