@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Repository\DoctrinePostRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -46,6 +45,12 @@ class Post
      * @ORM\Column(type="string", length=255)
      */
     private $author;
+
+	/**
+	 * @ORM\ManyToOne(targetEntity="User", inversedBy="posts")
+	 * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+	 */
+	private $user;
 
 	public function __construct()
 	{
