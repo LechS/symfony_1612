@@ -33,11 +33,6 @@ final class HandleApiErrorSubscriber implements EventSubscriberInterface
 
 	public function processException(ExceptionEvent $event)
 	{
-		//tens subscriber powinien obsługiwać wyłącznie błędy z  API
-		// dla środowiska PROD zwracam wiadomość "ops something went wrong"
-		// dla środowiska DEV pełne informacje o błędzie
-		// LoggerInterface - zalogować pełne informacje o błędzie
-
 		$path = $event->getRequest()->getPathInfo();
 		$exception = $event->getThrowable();
 
@@ -47,6 +42,8 @@ final class HandleApiErrorSubscriber implements EventSubscriberInterface
 			return;
 		}
 
+
+		//Poniższa ifologia zasługuje na mały refaktoring
 		if ('prod' === $this->env) {
 			$response = new JsonResponse(['error' => 'Oops something went wrong'],status: 500);
 			if ($exception instanceof ValidationException) {
