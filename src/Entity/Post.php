@@ -157,4 +157,14 @@ class Post
 		$this->user = $user;
 		return $this;
 	}
+
+	/**
+	 * @param mixed $id
+	 * @return Post
+	 */
+	public function setId($id)
+	{
+		$this->id = $id;
+		return $this;
+	}
 }
