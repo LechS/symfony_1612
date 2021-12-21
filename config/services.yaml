@@ -31,6 +31,10 @@ services:
     App\Utils\Validator\AppValidatorInterface:
         alias: App\Utils\Validator\SymfonyAppValidator
 
+    App\Repository\PostRepositoryInterface:
+        alias: App\Repository\DoctrinePostRepository
+        public: true
+
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

@@ -49,6 +49,8 @@ final class HandleApiErrorSubscriber implements EventSubscriberInterface
 			if ($exception instanceof ValidationException) {
 				$response = new JsonResponse(['error' => $exception->getMessage()],status: Response::HTTP_BAD_REQUEST);
 			}
+
+			$event->setResponse($response);
 		}
 
 		if ('dev' === $this->env) {
@@ -57,9 +59,10 @@ final class HandleApiErrorSubscriber implements EventSubscriberInterface
 
 				$response = new JsonResponse(['error' => $exception->getMessage()],status: Response::HTTP_BAD_REQUEST);
 			}
+
+			$event->setResponse($response);
 		}
 
-		$event->setResponse($response);
 
 		$this->logger->error($exception->getMessage(), [
 			'file' => $exception->getFile(),
